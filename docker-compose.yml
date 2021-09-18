@@ -1,0 +1,30 @@
+version: "3"
+services:
+  postgres-server:
+    image: postgres:latest
+    container_name: pgsql_server
+    volumes:
+      - "./PGSQL/data/db:/var/lib/postgresql"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: lavemi
+    restart: on-failure
+    ports:
+    - "5432:5432"
+  php-server-emi:
+    build: ./PHP
+    expose:
+      - "9000"
+    container_name: php_server_emi
+    volumes:
+      - "./PHP/lavemi:/var/www/html"
+  nginx-server-emi:
+    build: ./NGINX
+    ports:
+      - "8020:80"
+    container_name: nginx_server_emi
+    volumes:
+      - "./PHP/lavemi:/var/www/html"
+    depends_on:
+      - php-server-emi
