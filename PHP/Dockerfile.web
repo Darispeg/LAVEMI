@@ -1,4 +1,4 @@
-FROM geerlingguy/php-apache:latest
+FROM php:7.4-fpm
 
 RUN rm /var/www/html/index.html
 COPY index.php /var/wwww/html/index.php
